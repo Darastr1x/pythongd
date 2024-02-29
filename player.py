@@ -21,22 +21,27 @@ class Player:
         w_deck = ['w_strike', 'w_strike', 'w_strike', 'w_strike', 'w_defend', 'w_defend', 'w_defend', 'w_defend', 'eruption', 'vigilance']
 
         self.max_health = None
+        self.current_health = self.max_health
         self.relics = []
 
         if char == 'ironclad':
             self.max_health = 80
+            self.current_health = self.max_health
             self.relics.append('burning_blood')
             self.deck.extend(i_deck)
         elif char == 'silent':
             self.max_health = 70
+            self.current_health = self.max_health
             self.relics.append('ring_of_the_snake')
             self.deck.extend(s_deck)
         elif char == 'defect':
             self.max_health = 75
+            self.current_health = self.max_health
             self.relics.append('cracked_core')
             self.deck.extend(d_deck)
         elif char == 'watcher':
             self.max_health = 72
+            self.current_health = self.max_health
             self.relics.append('pure_water')
             self.deck.extend(w_deck)
 
@@ -47,21 +52,20 @@ class Player:
         print('TAKING TURN')
         if not self.keep_block:
             self.block = 0
-        self.draw(10)
+        self.draw(5, 10)
         print('TAKING TURN 2')
+        self.discard_pile.append(self.hand[0])
+        self.hand.clear()
 
-    def draw(self, max_hand):
-        not_full = True
-        while not_full:
-            if len(self.hand) < max_hand or len(self.hand) < 5:
+    def draw(self, times, max_hand):
+        for x in range(0, times):
+            if len(self.hand) <= max_hand:
                 if len(self.draw_pile) != 0:
                     self.hand.append(self.draw_pile[0])
                     del self.draw_pile[0]
                 else:
                     self.draw_pile.append(self.discard_pile)
                     random.shuffle(self.draw_pile)
-            else:
-                not_full = False
 
     def discard(self, num):
         # temp #
