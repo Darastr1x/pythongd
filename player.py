@@ -19,6 +19,7 @@ class Player:
         s_deck = ['s_strike', 's_strike', 's_strike', 's_strike', 's_strike', 's_defend', 's_defend', 's_defend', 's_defend', 's_defend', 'survivor', 'neutralize']
         d_deck = ['d_strike', 'd_strike', 'd_strike', 'd_strike', 'd_defend', 'd_defend', 'd_defend', 'd_defend', 'zap', 'dualcast']
         w_deck = ['w_strike', 'w_strike', 'w_strike', 'w_strike', 'w_defend', 'w_defend', 'w_defend', 'w_defend', 'eruption', 'vigilance']
+        self.blit_cards = []
 
         self.max_health = None
         self.current_health = self.max_health
@@ -52,10 +53,19 @@ class Player:
         print('TAKING TURN')
         if not self.keep_block:
             self.block = 0
+        self.blit_cards = []
         self.draw(5, 10)
+        self.blit_cards = self.hand.copy()
+        print('CARDS TO BLIT', self.blit_cards)
         print('TAKING TURN 2')
-        self.discard_pile.append(self.hand[0])
+
+        # Move each card in hand to discard_pile
+        self.discard_pile.extend(self.hand)
         self.hand.clear()
+
+        # Alternatively, if you want to keep the cards in hand for some reason, you can use:
+        # self.discard_pile.extend(self.hand[:])
+        # self.hand.clear()
 
     def draw(self, times, max_hand):
         for x in range(0, times):
@@ -64,7 +74,8 @@ class Player:
                     self.hand.append(self.draw_pile[0])
                     del self.draw_pile[0]
                 else:
-                    self.draw_pile.append(self.discard_pile)
+                    self.draw_pile.extend(self.discard_pile)
+                    self.discard_pile.clear()
                     random.shuffle(self.draw_pile)
 
     def discard(self, num):

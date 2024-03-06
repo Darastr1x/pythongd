@@ -240,14 +240,20 @@ while running:
                 combat_surf.blit(deck_number_text, (1810, 40))
 
                 print('hand', len(p1.hand))
+                print('deck', p1.draw_pile)
+                print('discard', p1.discard_pile)
 
                 x = 300
-                for c in p1.hand:
+                for c in p1.blit_cards:
                     c = set_cards(c)
                     combat_surf.blit(c, (x, 825))
                     x += 120
                 if action_lock:
                     p1.take_turn()
+                    print('CARDS TO BLIT MAIN', p1.blit_cards)
+                    print('hand', len(p1.hand))
+                    print('deck', p1.draw_pile)
+                    print('discard', p1.discard_pile)
                     action_lock = False
                 action_lock = True
                 print(mon.take_turn())
