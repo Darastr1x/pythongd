@@ -59,24 +59,35 @@ class Player:
         print('CARDS TO BLIT', self.blit_cards)
         print('TAKING TURN 2')
 
-        # Move each card in hand to discard_pile
-        self.discard_pile.extend(self.hand)
-        self.hand.clear()
-
         # Alternatively, if you want to keep the cards in hand for some reason, you can use:
         # self.discard_pile.extend(self.hand[:])
         # self.hand.clear()
 
+    def end_turn(self):
+        # Move each card in hand to discard_pile
+        self.discard_pile.extend(self.hand)
+        self.hand.clear()
+
     def draw(self, times, max_hand):
         for x in range(0, times):
+
+            print('DRAWING CARD')
+
             if len(self.hand) <= max_hand:
                 if len(self.draw_pile) != 0:
                     self.hand.append(self.draw_pile[0])
                     del self.draw_pile[0]
+
+                    print('CARD ADDED TO HAND')
+
                 else:
                     self.draw_pile.extend(self.discard_pile)
                     self.discard_pile.clear()
                     random.shuffle(self.draw_pile)
+                    self.hand.append(self.draw_pile[0])
+                    del self.draw_pile[0]
+
+                    print('DRAW PILE RAN OUT')
 
     def discard(self, num):
         # temp #

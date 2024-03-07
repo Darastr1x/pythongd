@@ -128,6 +128,7 @@ lock = False
 start = True
 combat = False
 action_lock = True
+card_select = False
 
 
 # Set cards #
@@ -224,18 +225,28 @@ while running:
                     # start = False
 
             if combat:
-                # print(char)
+
+                # BG #
                 current_screen = level_1
+
+                # Top UI #
                 combat_surf.blit(top_bar, (0, 0))
+
+                # Character #
                 combat_surf.blit(char, (355, 525))
+
+                # Enemy #
                 combat_surf.blit(cultist, (1325, 525))
 
+                # Health Text #
                 health_text = font_32.render(str(p1.current_health) + '/' + str(p1.max_health), True, 'red')
                 combat_surf.blit(health_text, (300, 10))
 
+                # Gold Text #
                 gold_text = font_32.render(str(p1.gold), True, 'yellow')
                 combat_surf.blit(gold_text, (475, 10))
 
+                # Deck Size #
                 deck_number_text = font_25.render(str(len(p1.deck)), True, 'white')
                 combat_surf.blit(deck_number_text, (1810, 40))
 
@@ -243,24 +254,38 @@ while running:
                 print('deck', p1.draw_pile)
                 print('discard', p1.discard_pile)
 
+                # Blit Hand #
                 x = 300
                 for c in p1.blit_cards:
                     c = set_cards(c)
                     combat_surf.blit(c, (x, 825))
                     x += 120
+
                 if action_lock:
-                    p1.take_turn()
+                    if not card_select:
+                        p1.take_turn()
+                        card_select = True
+                    else:
+                        p1.end_turn()
+                        card_select = False
+                        break
+
                     print('CARDS TO BLIT MAIN', p1.blit_cards)
                     print('hand', len(p1.hand))
                     print('deck', p1.draw_pile)
                     print('discard', p1.discard_pile)
+
                     action_lock = False
                 action_lock = True
-                print(mon.take_turn())
-            print('end')
 
+            #     print(mon.take_turn())
+            # print('end')
+
+            # Update Screen #
             pg.display.flip()
+
         else:
+
             pg.quit()
 
         if event.type == pg.QUIT:
