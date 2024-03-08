@@ -42,6 +42,11 @@ watcher_char = Images('TheWatcher.png', 240, 255)
 watcher_char = watcher_char.load_image()
 watcher_char.set_colorkey((0, 0, 0))
 
+# Energy #
+i_energy = Images('i_energy.jpg', 100, 100)
+i_energy = i_energy.load_image()
+i_energy.set_colorkey((0, 0, 0))
+
 # Monster images #
 cultist = Images('cultist.png', 240, 255)
 cultist = cultist.load_image()
