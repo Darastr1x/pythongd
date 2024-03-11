@@ -46,6 +46,15 @@ watcher_char.set_colorkey((0, 0, 0))
 i_energy = Images('i_energy.jpg', 100, 100)
 i_energy = i_energy.load_image()
 i_energy.set_colorkey((0, 0, 0))
+s_energy = Images('s_energy.jpg', 100, 100)
+s_energy = s_energy.load_image()
+s_energy.set_colorkey((0, 0, 0))
+d_energy = Images('d_energy.jpg', 100, 100)
+d_energy = d_energy.load_image()
+d_energy.set_colorkey((0, 0, 0))
+w_energy = Images('w_energy.jpg', 100, 100)
+w_energy = w_energy.load_image()
+w_energy.set_colorkey((0, 0, 0))
 
 # Monster images #
 cultist = Images('cultist.png', 240, 255)
@@ -123,6 +132,7 @@ combat_surf.blit(current_screen, (0, 0))
 
 p1 = None
 char = None
+energy = None
 mon = Monster('cultist')
 card_print = (580, 800)
 font_32 = pg.font.Font('Kreon.ttf', 32)
@@ -214,18 +224,22 @@ while running:
                     if current_screen == ironclad:
                         p1 = Player('ironclad')
                         char = ironclad_char
+                        energy = i_energy
                         combat = True
                     elif current_screen == silent:
                         p1 = Player('silent')
                         char = silent_char
+                        energy = s_energy
                         combat = True
                     elif current_screen == defect:
                         p1 = Player('defect')
                         char = defect_char
+                        energy = d_energy
                         combat = True
                     elif current_screen == watcher:
                         p1 = Player('watcher')
                         char = watcher_char
+                        energy = w_energy
                         combat = True
                     # start = False
 
@@ -247,6 +261,12 @@ while running:
                 health_text = font_32.render(str(p1.current_health) + '/' + str(p1.max_health), True, 'red')
                 combat_surf.blit(health_text, (300, 10))
 
+                # Health #
+                monster_health_text = font_25.render(str(mon.health) + '/' + str(mon.max_health), True, 'white')
+                combat_surf.blit(monster_health_text, (1395, 780))
+                player_health_text = font_25.render(str(p1.current_health) + '/' + str(p1.max_health), True, 'white')
+                combat_surf.blit(player_health_text, (430, 785))
+
                 # Gold Text #
                 gold_text = font_32.render(str(p1.gold), True, 'yellow')
                 combat_surf.blit(gold_text, (475, 10))
@@ -254,6 +274,11 @@ while running:
                 # Deck Size #
                 deck_number_text = font_25.render(str(len(p1.deck)), True, 'white')
                 combat_surf.blit(deck_number_text, (1810, 40))
+
+                # Energy #
+                combat_surf.blit(energy, (113, 793))
+                energy_text = font_25.render(str(p1.current_energy) + '/' + str(p1.max_energy), True, 'black')
+                combat_surf.blit(energy_text, (145, 830))
 
                 print('hand', len(p1.hand))
                 print('deck', p1.draw_pile)
@@ -271,9 +296,15 @@ while running:
                         p1.take_turn()
                         card_select = True
                     else:
-                        p1.end_turn()
-                        card_select = False
-                        break
+                        if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                            mouse_x, mouse_y = pg.mouse.get_pos()
+
+                            # Check if the click is on a card in the player's hand
+                            for i, card_position in enumerate(zip(range(300, 900, 120), [825] * len(p1.hand))):
+                                x, y = card_position
+                        # p1.end_turn()
+                        # card_select = False
+                        # break
 
                     print('CARDS TO BLIT MAIN', p1.blit_cards)
                     print('hand', len(p1.hand))

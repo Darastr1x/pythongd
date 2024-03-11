@@ -51,6 +51,7 @@ class Player:
 
     def take_turn(self):
         print('TAKING TURN')
+        self.current_energy = self.max_energy
         if not self.keep_block:
             self.block = 0
         self.blit_cards = []
