@@ -144,6 +144,10 @@ start = True
 combat = False
 action_lock = True
 card_select = False
+clicked_card_index = None
+second = False
+selected_card = None
+is_card_selected = False
 
 
 # Set cards #
@@ -302,6 +306,25 @@ while running:
                             # Check if the click is on a card in the player's hand
                             for i, card_position in enumerate(zip(range(300, 900, 120), [825] * len(p1.hand))):
                                 x, y = card_position
+
+                                # Check if the mouse click is within the bounding box of the card
+                                if x < mouse_pos_x < x + 240 and y < mouse_pos_y < y + 255:
+                                    clicked_card_index = i
+                                    selected_card = set_cards(p1.hand[clicked_card_index])
+                                    is_card_selected = True
+                                    second = True
+
+                        if second:
+
+                            mouse_x, mouse_y = pg.mouse.get_pos()
+
+                            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                                p1.play_card(selected_card)
+                                # is_card_selected = False
+
+                            if is_card_selected:
+                                combat_surf.blit(selected_card, (mouse_x, mouse_y))
+
                         # p1.end_turn()
                         # card_select = False
                         # break
