@@ -96,6 +96,8 @@ class Player:
 
     def play_card(self, card):
 
+        print('PLAYING CARD')
+
         # IRONCLAD CARDS #
 
         if card == 'i_defend.png':

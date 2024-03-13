@@ -148,6 +148,7 @@ clicked_card_index = None
 second = False
 selected_card = None
 is_card_selected = False
+click_count = 0  # Variable to count left clicks
 
 
 # Set cards #
@@ -308,33 +309,37 @@ while running:
                                 x, y = card_position
 
                                 # Check if the mouse click is within the bounding box of the card
+                                # ISSUE HERE #
                                 if x < mouse_pos_x < x + 240 and y < mouse_pos_y < y + 255:
                                     clicked_card_index = i
                                     selected_card = set_cards(p1.hand[clicked_card_index])
                                     is_card_selected = True
-                                    second = True
+                                    click_count += 1
+                                    print('CLICKING 1')
 
-                        if second:
-
+                        print('CLICKING 2')
+                        if click_count == 2:
                             mouse_x, mouse_y = pg.mouse.get_pos()
 
                             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                                 p1.play_card(selected_card)
-                                # is_card_selected = False
+                                # is_card_selected = False  # Reset the flag after playing the card
+                                click_count = 0  # Reset the click count
 
-                            if is_card_selected:
-                                combat_surf.blit(selected_card, (mouse_x, mouse_y))
+                        if is_card_selected:
+                            mouse_x, mouse_y = pg.mouse.get_pos()
+                            combat_surf.blit(selected_card, (mouse_x, mouse_y))
 
                         # p1.end_turn()
                         # card_select = False
                         # break
 
-                    print('CARDS TO BLIT MAIN', p1.blit_cards)
-                    print('hand', len(p1.hand))
-                    print('deck', p1.draw_pile)
-                    print('discard', p1.discard_pile)
+                        # print('CARDS TO BLIT MAIN', p1.blit_cards)
+                        # print('hand', len(p1.hand))
+                        # print('deck', p1.draw_pile)
+                        # print('discard', p1.discard_pile)
 
-                    action_lock = False
+                        action_lock = False
                 action_lock = True
 
             #     print(mon.take_turn())
