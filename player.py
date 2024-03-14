@@ -100,11 +100,13 @@ class Player:
 
         # IRONCLAD CARDS #
 
-        if card == 'i_defend.png':
+        if card == 'i_defend':
             self.cost = 1
             if self.cost >= self.current_energy:
                 self.current_energy -= self.cost
                 self.block += 5
+                print('energy', self.current_energy)
+                print('BLOCK', self.block)
 
         if card == 'i_attack.png':
             self.cost = 1
