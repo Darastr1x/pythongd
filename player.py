@@ -102,106 +102,106 @@ class Player:
 
         if card == 'i_defend':
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 self.block += 5
-                print('energy', self.current_energy)
-                print('BLOCK', self.block)
 
-        if card == 'i_attack.png':
+        if card == 'i_strike':
+            print('STRIKING')
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 # NEED MONSTER CLASS (6 damage) #
-                return
+                return 6
 
-        if card == 'bash.png':
+        if card == 'bash':
             self.cost = 2
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 # NEED MONSTER CLASS (8 damage, 2 vulnerable) #
+                return 8
 
         # SILENT CARDS #
 
-        if card == 's_defend.png':
+        if card == 's_defend':
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 self.block += 5
 
-        if card == 's_attack.png':
+        if card == 's_strike':
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 # NEED MONSTER CLASS (6 damage) #
                 return
 
-        if card == 'neutralize.png':
+        if card == 'neutralize':
             self.cost = 0
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 # NEED MONSTER CLASS (3 damage, 1 weak) #
 
-        if card == 'survivor.png':
+        if card == 'survivor':
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 self.block += 8
                 self.discard(1)
 
         # DEFECT CARDS #
 
-        if card == 'd_defend.png':
+        if card == 'd_defend':
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 self.block += 5
 
-        if card == 'd_attack.png':
+        if card == 'd_strike':
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 # NEED MONSTER CLASS (6 damage) #
                 return
 
-        if card == 'dualcast.png':
+        if card == 'dualcast':
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 # EVOKE 1 #
                 return
 
-        if card == 'zap.png':
+        if card == 'zap':
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 # CHANNEL 1 LIGHTNING #
                 return
 
         # WATCHER CARDS #
 
-        if card == 'w_defend.png':
+        if card == 'w_defend':
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 self.block += 5
 
-        if card == 'w_attack.png':
+        if card == 'w_strike':
             self.cost = 1
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 # NEED MONSTER CLASS (6 damage) #
                 return
 
-        if card == 'eruption.png':
+        if card == 'eruption':
             self.cost = 2
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 # NEED MONSTER CLASS (9 damage, enter wraith) #
 
-        if card == 'vigilance.png':
+        if card == 'vigilance':
             self.cost = 2
-            if self.cost >= self.current_energy:
+            if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 # ENTER CALM #
                 self.block += 5

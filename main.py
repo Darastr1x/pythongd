@@ -156,10 +156,16 @@ click_count = 0  # Variable to count left clicks
 def set_cards(card):
     if card == 'i_strike':
         return i_strike
+    if card == i_strike:
+        return 'i_strike'
     if card == 'i_defend':
         return i_defend
+    if card == i_defend:
+        return 'i_defend'
     if card == 'bash':
         return bash
+    if card == bash:
+        return 'bash'
 
     if card == 's_strike':
         return s_strike
@@ -323,15 +329,15 @@ while running:
                                     selected_card = set_cards(p1.hand[clicked_card_index])
                                     is_card_selected = True
                                     click_count += 1
-                                    print('CLICKING 1')
-                                    print(click_count)
+                                    # print('CLICKING 1')
+                                    # print(click_count)
 
                         if click_count == 1:
                             # Check if the second click occurs anywhere on the screen
                             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                                 click_count += 1
-                                print('CLICKING 2')
-                                print(click_count)
+                                # print('CLICKING 2')
+                                # print(click_count)
                             elif event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
                                 click_count = 0
                                 is_card_selected = False
@@ -343,6 +349,10 @@ while running:
 
                             if is_card_selected:
                                 p1.play_card(not_str_selected_card)
+                                print('DAMAGE?', p1.play_card(not_str_selected_card))
+                                if p1.play_card(not_str_selected_card) >= 0:
+                                    print('HAPPENING')
+                                    mon.take_damage(p1.play_card(not_str_selected_card))
                                 click_count = 0  # Reset the click count
                                 is_card_selected = False  # Reset the card selection
 
