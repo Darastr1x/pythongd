@@ -70,6 +70,8 @@ level_3 = Images('Level_3.png', 1920, 1080)
 level_3 = level_3.load_image()
 top_bar = Images('top_bar.png', 1920, 76)
 top_bar = top_bar.load_image()
+end_turn = Images('end_turn.png', 190, 80)
+end_turn = end_turn.load_image()
 
 # Cards #
 
@@ -298,6 +300,9 @@ while running:
                 energy_text = font_25.render(str(p1.current_energy) + '/' + str(p1.max_energy), True, 'black')
                 combat_surf.blit(energy_text, (145, 830))
 
+                # End turn #
+                combat_surf.blit(end_turn, (1630, 820))
+
                 print('hand', len(p1.hand))
                 print('deck', p1.draw_pile)
                 print('discard', p1.discard_pile)
@@ -309,8 +314,10 @@ while running:
                     combat_surf.blit(c, (x, 825))
                     x += 120
 
+                # Player taking turn #
                 if action_lock:
                     if not card_select:
+                        print('not card_select')
                         p1.take_turn()
                         card_select = True
                     else:
@@ -329,15 +336,11 @@ while running:
                                     selected_card = set_cards(p1.hand[clicked_card_index])
                                     is_card_selected = True
                                     click_count += 1
-                                    # print('CLICKING 1')
-                                    # print(click_count)
 
                         if click_count == 1:
                             # Check if the second click occurs anywhere on the screen
                             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                                 click_count += 1
-                                # print('CLICKING 2')
-                                # print(click_count)
                             elif event.type == pg.MOUSEBUTTONDOWN and event.button == 3:
                                 click_count = 0
                                 is_card_selected = False
@@ -345,20 +348,28 @@ while running:
                                 not_str_selected_card = None
 
                         if click_count == 2:
+                            print(click_count, 'click')
                             mouse_x, mouse_y = pg.mouse.get_pos()
 
                             if is_card_selected:
-                                p1.play_card(not_str_selected_card)
-                                print('DAMAGE?', p1.play_card(not_str_selected_card))
-                                if p1.play_card(not_str_selected_card) >= 0:
+                                tmp_card_var = p1.play_card(not_str_selected_card)
+                                print('DAMAGE?', tmp_card_var)
+                                if tmp_card_var >= 0:
                                     print('HAPPENING')
-                                    mon.take_damage(p1.play_card(not_str_selected_card))
+                                    print(tmp_card_var, 'ERROR?')
+                                    mon.take_damage(tmp_card_var)
                                 click_count = 0  # Reset the click count
                                 is_card_selected = False  # Reset the card selection
 
                         if is_card_selected:
                             mouse_x, mouse_y = pg.mouse.get_pos()
                             combat_surf.blit(selected_card, (mouse_x, mouse_y))
+
+                        if event.type == pg.MOUSEBUTTONUP and event.button == 1:
+                            mouse_x, mouse_y = pg.mouse.get_pos()
+                            if 1630 <= mouse_x <= 1820 and 820 <= mouse_y <= 900:
+                                p1.end_turn()
+                                mon.take_turn()
 
                         action_lock = False
                 action_lock = True

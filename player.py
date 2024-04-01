@@ -59,6 +59,7 @@ class Player:
         self.blit_cards = self.hand.copy()
         print('CARDS TO BLIT', self.blit_cards)
         print('TAKING TURN 2')
+        print(self.current_energy)
 
         # Alternatively, if you want to keep the cards in hand for some reason, you can use:
         # self.discard_pile.extend(self.hand[:])
@@ -101,10 +102,17 @@ class Player:
         # IRONCLAD CARDS #
 
         if card == 'i_defend':
+            print('IS WORKING 1')
             self.cost = 1
+            print(self.cost)
+            print(self.current_energy)
             if self.cost <= self.current_energy:
                 self.current_energy -= self.cost
                 self.block += 5
+                print('ran')
+                return 0
+            else:
+                return 0
 
         if card == 'i_strike':
             print('STRIKING')
@@ -113,6 +121,8 @@ class Player:
                 self.current_energy -= self.cost
                 # NEED MONSTER CLASS (6 damage) #
                 return 6
+            else:
+                return 0
 
         if card == 'bash':
             self.cost = 2
@@ -120,6 +130,8 @@ class Player:
                 self.current_energy -= self.cost
                 # NEED MONSTER CLASS (8 damage, 2 vulnerable) #
                 return 8
+            else:
+                return 0
 
         # SILENT CARDS #
 
