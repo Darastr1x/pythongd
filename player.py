@@ -51,6 +51,7 @@ class Player:
 
     def take_turn(self):
         print('TAKING TURN')
+        self.block = 0
         self.current_energy = self.max_energy
         if not self.keep_block:
             self.block = 0
@@ -94,6 +95,16 @@ class Player:
     def discard(self, num):
         # temp #
         return num
+
+    def take_damage(self, num):
+        tmp_num = num
+        tmp_num -= self.block
+        self.block -= num
+        if self.block <= 0:
+            self.block = 0
+        if tmp_num <= 0:
+            tmp_num = 0
+        self.current_health -= tmp_num
 
     def play_card(self, card):
 

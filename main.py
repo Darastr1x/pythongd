@@ -205,9 +205,7 @@ while running:
         # Start Screen #
         if start:
             mouse_pos_x, mouse_pos_y = pg.mouse.get_pos()
-            print(mouse_pos_x, mouse_pos_y)
             combat_surf.blit(current_screen, (0, 0))
-            print('start')
 
             if not lock:
                 if 117 < mouse_pos_x < 371 and 687 < mouse_pos_y < 729:
@@ -316,11 +314,13 @@ while running:
 
                 # Player taking turn #
                 if action_lock:
+                    print('locked action')
                     if not card_select:
                         print('not card_select')
                         p1.take_turn()
                         card_select = True
                     else:
+                        print('is else?')
                         if event.type == pg.MOUSEBUTTONUP and event.button == 1:
                             mouse_x, mouse_y = pg.mouse.get_pos()
 
@@ -369,7 +369,9 @@ while running:
                             mouse_x, mouse_y = pg.mouse.get_pos()
                             if 1630 <= mouse_x <= 1820 and 820 <= mouse_y <= 900:
                                 p1.end_turn()
-                                mon.take_turn()
+                                action, num = mon.take_turn()
+                                if action == 'attack':
+                                    p1.take_damage(num)
 
                         action_lock = False
                 action_lock = True
